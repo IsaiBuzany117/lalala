@@ -997,17 +997,19 @@ class MainMenu extends Phaser.Scene {
     create() {
         // En segundo lugar, se ejecuta una vez
         // Toda la lógica del videojuego
-        this.add.image(640, 360, 'main').setScale(0.15);
+        const { width, height } = this.scale;
+
+        const image = this.add.image(width/2, height/2, 'main').setScale(1)
         // Crear un objeto Graphics
         this.rectangulo = this.add.graphics();
         this.rectangulo2 = this.add.graphics();
 
 
         this.rectangulo.lineStyle(4, 0xffffff, 1);  // Grosor de línea 4px, color rojo (0xff0000), opacidad 1 (totalmente opaco)
-        this.rectangulo.strokeRect(550, 410, 180, 60);  // Coordenadas (100, 100), 200px de ancho y 150px de alto
+        this.rectangulo.strokeRect(550, 415, 180, 60);  // Coordenadas (100, 100), 200px de ancho y 150px de alto
         //this.rectangulo2.lineStyle(4, 0xffffff, 1);  // Grosor de línea 4px, color rojo (0xff0000), opacidad 1 (totalmente opaco)
-        this.rectangulo2.strokeRect(540, 485, 200, 60);  // Coordenadas (100, 100), 200px de ancho y 150px de alto
-
+        this.rectangulo2.strokeRect(512, 500, 258, 60);  // Coordenadas (100, 100), 200px de ancho y 150px de alto
+        
         this.cursors = this.input.keyboard.createCursorKeys();
         this.selection = 1;
 
@@ -1032,16 +1034,16 @@ class MainMenu extends Phaser.Scene {
             this.selection = 1;
             console.log(this.selection);
             this.rectangulo.lineStyle(4, 0xffffff, 1);  // Grosor de línea 4px, color rojo (0xff0000), opacidad 1 (totalmente opaco)
-            this.rectangulo.strokeRect(550, 410, 180, 60);  // Coordenadas (100, 100), 200px de ancho y 150px de alto
+            this.rectangulo.strokeRect(550, 415, 180, 60); // Coordenadas (100, 100), 200px de ancho y 150px de alto
             this.rectangulo2.lineStyle(4, 0x000000, 1);  // Grosor de línea 4px, color rojo (0xff0000), opacidad 1 (totalmente opaco)
-            this.rectangulo2.strokeRect(540, 485, 200, 60);  // Coordenadas (100, 100), 200px de ancho y 150px de alto
+            this.rectangulo2.strokeRect(512, 500, 258, 60);   // Coordenadas (100, 100), 200px de ancho y 150px de alto
 
         } else if (this.cursors.down.isDown) {
             this.selection = 2;
             console.log(this.selection);
             // Dibujar solo el borde del rectángulo (x, y, ancho, alto)
-            this.rectangulo.strokeRect(550, 410, 180, 60);  // Coordenadas (100, 100), 200px de ancho y 150px de alto
-            this.rectangulo2.strokeRect(540, 485, 200, 60);  // Coordenadas (100, 100), 200px de ancho y 150px de alto
+            this.rectangulo.strokeRect(550, 415, 180, 60);  // Coordenadas (100, 100), 200px de ancho y 150px de alto
+            this.rectangulo2.strokeRect(512, 500, 258, 60);   // Coordenadas (100, 100), 200px de ancho y 150px de alto
             this.rectangulo2.lineStyle(4, 0xffffff, 1);  // Grosor de línea 4px, color rojo (0xff0000), opacidad 1 (totalmente opaco)
             this.rectangulo.lineStyle(4, 0x000000, 1);
         }
@@ -1069,7 +1071,7 @@ class Controls extends Phaser.Scene {
         this.rectangulo = this.add.graphics();
 
         this.rectangulo.lineStyle(4, 0xffffff, 1);  // Grosor de línea 4px, color rojo (0xff0000), opacidad 1 (totalmente opaco)
-        this.rectangulo.strokeRect(500, 565, 180, 60);
+        this.rectangulo.strokeRect(505, 610,170 , 60);
         this.enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         
@@ -1115,12 +1117,12 @@ class EndGame extends Phaser.Scene {
 // 3) Configuración base del videojuego
 const config = {
     type: Phaser.AUTO,
-    width: 1280,
-    height: 720,
     // Array que indica el orden de visualización del vj
     scene: [MainMenu, Nivel1, Nivel2, Controls, Level, EndGame],
     scale: {
-        mode: Phaser.Scale.FIT
+        mode: Phaser.Scale.FIT,
+        width: 1280,
+        height: 720,
     }, physics: {
         default: 'arcade',
         arcade: {
