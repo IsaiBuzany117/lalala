@@ -14,32 +14,31 @@ class Nivel1 extends Phaser.Scene/*Nivel 1*/ {
     }
 
     preload()/*Nivel 1*/ {
-        const baseUrl = window.location.origin;
         this.load.baseURL = './';
-        this.load.image('fondo1', baseUrl + '/img/fondo1.jpg');
-        this.load.image('prota', baseUrl + '/img/prota/green_turn1.png');
+        this.load.image('fondo1', './img/fondo1.jpg');
+        this.load.image('prota', './img/prota/green_turn1.png');
 
-        this.load.image('stay1', baseUrl + '/img/prota/green_001_stay.png');
-        this.load.image('stay2', baseUrl + '/img/prota/green_002_stay.png');
-        this.load.image('stay3', baseUrl + '/img/prota/green_003_stay.png');
-        
-        this.load.image('turn2', baseUrl + '/img/prota/green_turn2.png');
-        this.load.image('turn3', baseUrl + '/img/prota/green_turn3.png');
-        this.load.image('walk1', baseUrl + '/img/prota/green_walk1.png');
-        this.load.image('walk2', baseUrl + '/img/prota/green_walk2.png');
-        this.load.image('walk3', baseUrl + '/img/prota/green_walk3.png');
-        this.load.image('walk4', baseUrl + '/img/prota/green_walk4.png');
-        this.load.image('walk5', baseUrl + '/img/prota/green_walk5.png');
-        this.load.image('walk6', baseUrl + '/img/prota/green_walk6.png');
-        this.load.image('jump1', baseUrl + '/img/prota/green_jump1.png');
-        this.load.image('jump2', baseUrl + '/img/prota/green_jump2.png');
-        this.load.image('jump3', baseUrl + '/img/prota/green_jump3.png');
-        this.load.image('jump4', baseUrl + '/img/prota/green_jump4.png');
-        this.load.image('prota', baseUrl + '/img/prota/green_turn1.png');
-        this.load.image('pisolv1', '/img/volcano_floor.png');
-        this.load.image('plat1', '/img/PlataformaLarga.png');
-        this.load.image('estrella', '/img/star.png');
-        this.load.image('npc1', '/img/npc1.png');
+        this.load.image('stay1', './img/prota/green_001_stay.png');
+        this.load.image('stay2', './img/prota/green_002_stay.png');
+        this.load.image('stay3', './img/prota/green_003_stay.png');
+
+        this.load.image('turn2', './img/prota/green_turn2.png');
+        this.load.image('turn3', './img/prota/green_turn3.png');
+        this.load.image('walk1', './img/prota/green_walk1.png');
+        this.load.image('walk2', './img/prota/green_walk2.png');
+        this.load.image('walk3', './img/prota/green_walk3.png');
+        this.load.image('walk4', './img/prota/green_walk4.png');
+        this.load.image('walk5', './img/prota/green_walk5.png');
+        this.load.image('walk6', './img/prota/green_walk6.png');
+        this.load.image('jump1', './img/prota/green_jump1.png');
+        this.load.image('jump2', './img/prota/green_jump2.png');
+        this.load.image('jump3', './img/prota/green_jump3.png');
+        this.load.image('jump4', './img/prota/green_jump4.png');
+        this.load.image('prota', './img/prota/green_turn1.png');
+        this.load.image('pisolv1', './img/volcano_floor.png');
+        this.load.image('plat1', './img/PlataformaLarga.png');
+        this.load.image('estrella', './img/star.png');
+        this.load.image('npc1', './img/npc1.png');
 
         for (let i = 0; i <= 29; i++) {
             const key = `stitch${i}`;
