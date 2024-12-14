@@ -200,168 +200,77 @@ class Nivel1 extends Phaser.Scene/*Nivel 1*/ {
             repeat: -1
         });
 
+        // Configurar el teclado
+        this.cursors = this.input.keyboard.createCursorKeys();
+        this.shiftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
 
+        // Configurar variables
+        this.isDamaged = false;
+        this.fallTime = 0;
+
+        // Crear botones táctiles
+        this.leftButton = this.add.rectangle(50, this.scale.height - 50, 100, 100, 0x6666ff, 0.5)
+            .setInteractive();
+        this.rightButton = this.add.rectangle(200, this.scale.height - 50, 100, 100, 0x6666ff, 0.5)
+            .setInteractive();
+        this.jumpButton = this.add.rectangle(this.scale.width - 50, this.scale.height - 50, 100, 100, 0xff6666, 0.5)
+            .setInteractive();
+        this.runButton = this.add.rectangle(this.scale.width - 150, this.scale.height - 50, 100, 100, 0x66ff66, 0.5)
+            .setInteractive();
+
+        // Variables para rastrear entradas táctiles
+        this.touchInput = {
+            left: false,
+            right: false,
+            jump: false,
+            run: false
+        }
+
+        // Configurar eventos táctiles
+        this.leftButton.on('pointerdown', () => this.touchInput.left = true);
+        this.leftButton.on('pointerup', () => this.touchInput.left = false);
+        this.rightButton.on('pointerdown', () => this.touchInput.right = true);
+        this.rightButton.on('pointerup', () => this.touchInput.right = false);
+        this.jumpButton.on('pointerdown', () => this.touchInput.jump = true);
+        this.jumpButton.on('pointerup', () => this.touchInput.jump = false);
+        this.runButton.on('pointerdown', () => this.touchInput.run = true);
+        this.runButton.on('pointerup', () => this.touchInput.run = false);
 
     }
 
-    update()/*Nivel 1*/ {
-        // Detener el movimiento horizontal cuando no haya teclas presionadas
+    update() {
+        // Detener movimiento horizontal
         this.characterObject.body.setVelocityX(0);
 
-        if (isDead) {
-
-        } else {
-            // Inicializar el tiempo de caída si no está tocando el suelo
-            if (!this.characterObject.body.touching.down) {
-                // Si no está tocando el suelo, incrementamos el tiempo de caída
-                this.fallTime += this.game.loop.delta; // Aumentar el tiempo de caída
-            } else {
-                // Si toca el suelo, resetear el tiempo de caída
-                this.fallTime = 0;
+        if (!this.isDead) {
+            // Movimiento a la izquierda
+            if (this.cursors.left.isDown || this.touchInput.left) {
+                let velocity = this.touchInput.run ? -330 : -200;
+                this.characterObject.body.setVelocityX(velocity);
+                this.characterObject.flipX = true;
+                this.characterObject.anims.play(this.touchInput.run ? 'run' : 'walk', true);
             }
 
-            // Verificar si el personaje está tocando el suelo y presionando la tecla de salto
-            if (this.cursors.up.isDown && this.characterObject.body.touching.down) {
-                if (this.isDamaged == true) {
-                    this.time.addEvent({
-                        delay: 350, // Esperar 3s
-                        loop: false, // Solo se ejecuta una vez
-                        callback: () => {
-                            this.isDamaged = false;
-                        },
-                    });
-                } else {
-                    this.characterObject.body.setVelocityY(-430); // Realiza el salto
-                    this.characterObject.anims.play('jump', true); // Reproducir animación de salto
-                }
-
-            }
-            // Si el personaje está en el aire y ha estado cayendo más de 300ms (tiempo de animación turn)
-            else if (!this.characterObject.body.touching.down && this.fallTime > 300) {
-                this.characterObject.anims.play('jump', true); // Reproducir animación de salto
-            }
-            // Movimiento combinado con salto (derecha)
-            if (this.cursors.right.isDown && this.cursors.up.isDown) {
-                if (this.isDamaged == true) {
-                    this.time.addEvent({
-                        delay: 350, // Esperar 3s
-                        loop: false, // Solo se ejecuta una vez
-                        callback: () => {
-                            this.isDamaged = false;
-                        },
-                    });
-                } else {
-                    if (shiftKey.isDown) {
-                        this.characterObject.body.setVelocityX(330); // Mover a la derecha mientras saltas
-                        this.characterObject.flipX = false; // Mantener la dirección original
-                        this.characterObject.anims.play('jump', true); // Animación de salto    
-                    } else {
-                        this.characterObject.body.setVelocityX(200); // Mover a la derecha mientras saltas
-                        this.characterObject.flipX = false; // Mantener la dirección original
-                        this.characterObject.anims.play('jump', true); // Animación de salto    
-                    }
-                }
-
-
-            }
-            // Movimiento combinado con salto (izquierda)
-            else if (this.cursors.left.isDown && this.cursors.up.isDown) {
-                if (this.isDamaged == true) {
-                    this.time.addEvent({
-                        delay: 350, // Esperar 3s
-                        loop: false, // Solo se ejecuta una vez
-                        callback: () => {
-                            this.isDamaged = false;
-                        },
-                    });
-                } else {
-                    if (shiftKey.isDown) {
-                        this.characterObject.body.setVelocityX(-330); // Mover a la izquierda mientras saltas
-                        this.characterObject.flipX = true; // Invertir la dirección del personaje
-                        this.characterObject.anims.play('jump', true); // Animación de salto
-                    } else {
-                        this.characterObject.body.setVelocityX(-200); // Mover a la izquierda mientras saltas
-                        this.characterObject.flipX = true; // Invertir la dirección del personaje
-                        this.characterObject.anims.play('jump', true); // Animación de salto    
-                    }
-                }
+            // Movimiento a la derecha
+            if (this.cursors.right.isDown || this.touchInput.right) {
+                let velocity = this.touchInput.run ? 330 : 200;
+                this.characterObject.body.setVelocityX(velocity);
+                this.characterObject.flipX = false;
+                this.characterObject.anims.play(this.touchInput.run ? 'run' : 'walk', true);
             }
 
-
-            // Movimiento a la izquierda (caminar)
-            else if (this.cursors.left.isDown) {
-                if (this.isDamaged == true) {
-                    this.time.addEvent({
-                        delay: 350, // Esperar 3s
-                        loop: false, // Solo se ejecuta una vez
-                        callback: () => {
-                            this.isDamaged = false;
-                        },
-                    });
-                } else {
-                    if (shiftKey.isDown) {
-                        this.characterObject.body.setVelocityX(-330);   // Mover a la izquierda
-                        this.characterObject.flipX = true;               // Invertir la dirección del personaje
-                        this.characterObject.anims.play('run', true);    // Reproducir la animación de caminar
-                    } else {
-                        this.characterObject.body.setVelocityX(-200);   // Mover a la izquierda
-                        this.characterObject.flipX = true;               // Invertir la dirección del personaje
-                        this.characterObject.anims.play('walk', true);    // Reproducir la animación de caminar
-                    }
-
-                }
-            }
-            // Movimiento a la derecha (caminar)
-            else if (this.cursors.right.isDown) {
-                if (this.isDamaged == true) {
-                    this.time.addEvent({
-                        delay: 350, // Esperar 3s
-                        loop: false, // Solo se ejecuta una vez
-                        callback: () => {
-                            this.isDamaged = false;
-                        },
-                    });
-                } else {
-                    if (shiftKey.isDown && this.cursors.right.isDown) {
-                        console.log("SHIFT up");
-                        this.characterObject.body.setVelocityX(330);    // Mover a la derecha
-                        this.characterObject.flipX = false;              // Mantener la dirección original
-                        this.characterObject.anims.play('run', true);    // Reproducir la animación de caminar
-                    } else {
-                        this.characterObject.body.setVelocityX(160);    // Mover a la derecha
-                        this.characterObject.flipX = false;              // Mantener la dirección original
-                        this.characterObject.anims.play('walk', true);    // Reproducir la animación de caminar
-                    }
-
-                }
-
+            // Saltar
+            if ((this.cursors.up.isDown || this.touchInput.jump) && this.characterObject.body.touching.down) {
+                this.characterObject.body.setVelocityY(-430);
+                this.characterObject.anims.play('jump', true);
             }
 
-            // Si el personaje no se mueve y está tocando el suelo, reproducir la animación "turn"
-            if (!this.cursors.left.isDown && !this.cursors.right.isDown && this.characterObject.body.touching.down) {
-                if (this.isDamaged == true) {
-                    this.time.addEvent({
-                        delay: 350, // Esperar 3s
-                        loop: false, // Solo se ejecuta una vez
-                        callback: () => {
-                            this.isDamaged = false;
-                        },
-                    });
-                } else {
-                    this.characterObject.anims.play('turn', true); // Reproducir animación de reposo
-                }
+            // Animación en reposo
+            if (!this.cursors.left.isDown && !this.cursors.right.isDown &&
+                !this.touchInput.left && !this.touchInput.right &&
+                this.characterObject.body.touching.down) {
+                this.characterObject.anims.play('turn', true);
             }
-
-            // Si el personaje está en el aire, y ha estado cayendo menos de 300ms, reproducir la animación 'turn'
-            if (!this.characterObject.body.touching.down && this.fallTime <= 300) {
-                //this.characterObject.anims.play('turn', true); // Reproducir animación de reposo
-            }
-        }
-
-        // Verificar si se recolectaron todas las estrellas
-        if (score == 100) {
-            this.stitch.anims.stop();  // Detener la animación anterior
-            this.scene.start('nextLevelScene'); // Cambiar a la siguiente escena (nivel)
         }
     }
 }
