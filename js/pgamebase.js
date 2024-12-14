@@ -1040,20 +1040,31 @@ class MainMenu extends Phaser.Scene {
             this.selection = 1;
             console.log(this.selection);
             this.rectangulo.lineStyle(4, 0xffffff, 1);  // Grosor de línea 4px, color rojo (0xff0000), opacidad 1 (totalmente opaco)
-            this.rectangulo.strokeRect(550, 415, 180, 60); // Coordenadas (100, 100), 200px de ancho y 150px de alto
+            this.rectangulo.strokeRect(this.button1); // Coordenadas (100, 100), 200px de ancho y 150px de alto
             this.rectangulo2.lineStyle(4, 0x000000, 1);  // Grosor de línea 4px, color rojo (0xff0000), opacidad 1 (totalmente opaco)
-            this.rectangulo2.strokeRect(512, 500, 258, 60);   // Coordenadas (100, 100), 200px de ancho y 150px de alto
+            this.rectangulo2.strokeRect(this.button2);   // Coordenadas (100, 100), 200px de ancho y 150px de alto
 
         } else if (this.cursors.down.isDown) {
             this.selection = 2;
             console.log(this.selection);
             // Dibujar solo el borde del rectángulo (x, y, ancho, alto)
-            this.rectangulo.strokeRect(550, 415, 180, 60);  // Coordenadas (100, 100), 200px de ancho y 150px de alto
-            this.rectangulo2.strokeRect(512, 500, 258, 60);   // Coordenadas (100, 100), 200px de ancho y 150px de alto
+            this.rectangulo.strokeRect(this.button1);  // Coordenadas (100, 100), 200px de ancho y 150px de alto
+            this.rectangulo2.strokeRect(this.button2);   // Coordenadas (100, 100), 200px de ancho y 150px de alto
             this.rectangulo2.lineStyle(4, 0xffffff, 1);  // Grosor de línea 4px, color rojo (0xff0000), opacidad 1 (totalmente opaco)
             this.rectangulo.lineStyle(4, 0x000000, 1);
         }
 
+    }
+
+    onTouch(pointer) {
+        // Verificar si el toque fue dentro de los rectángulos
+        if (this.button1.contains(pointer.x, pointer.y)) {
+            this.selection = 1;
+            this.scene.start('gameScene');
+        } else if (this.button2.contains(pointer.x, pointer.y)) {
+            this.selection = 2;
+            this.scene.start('controlsScene');
+        }
     }
 }
 
