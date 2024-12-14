@@ -15,6 +15,7 @@ class Nivel1 extends Phaser.Scene/*Nivel 1*/ {
 
     preload()/*Nivel 1*/ {
         this.load.baseURL = './';
+        this.load.audio('bgsound', './img/Classic_Alien_Arrival_Sound_Effect.mp3');
         this.load.image('fondo1', './img/fondo1.jpg');
         this.load.image('prota', './img/prota/green_turn1.png');
 
@@ -55,6 +56,9 @@ class Nivel1 extends Phaser.Scene/*Nivel 1*/ {
 
     create()/*Nivel 1*/ {
         // Fondo
+        this.sound.add('bgsound', {
+            loop: true,
+        }).play();
         this.add.image(640, 360, 'fondo1').setScale(0.5);
 
         // Crear un grupo para npc
@@ -371,7 +375,6 @@ class Nivel2 extends Phaser.Scene/*Nivel 2*/ {
         // En primer lugar, solo se ejecuta una vez
         // Multimedia
         this.load.baseURL = './';
-
         this.load.image('stay1', './img/prota/green_001_stay.png');
         this.load.image('stay2', './img/prota/green_002_stay.png');
         this.load.image('stay3', './img/prota/green_003_stay.png');
