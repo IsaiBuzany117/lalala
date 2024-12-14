@@ -272,6 +272,12 @@ class Nivel1 extends Phaser.Scene/*Nivel 1*/ {
                 this.characterObject.anims.play('turn', true);
             }
         }
+
+        // Verificar si se recolectaron todas las estrellas
+        if (score == 100) {
+            this.stitch.anims.stop();  // Detener la animación anterior
+            this.scene.start('nextLevelScene'); // Cambiar a la siguiente escena (nivel)
+        }
     }
 }
 
