@@ -1067,7 +1067,8 @@ class Controls extends Phaser.Scene {
     create() {
         // En segundo lugar, se ejecuta una vez
         // Toda la lógica del videojuego
-        this.add.image(640, 360, 'controls').setScale(0.14);
+        const { width, height } = this.scale;
+        this.add.image(width/2, height/2, 'controls').setScale(1)
         this.rectangulo = this.add.graphics();
 
         this.rectangulo.lineStyle(4, 0xffffff, 1);  // Grosor de línea 4px, color rojo (0xff0000), opacidad 1 (totalmente opaco)
@@ -1118,7 +1119,7 @@ class EndGame extends Phaser.Scene {
 const config = {
     type: Phaser.AUTO,
     // Array que indica el orden de visualización del vj
-    scene: [MainMenu, Nivel1, Nivel2, Controls, Level, EndGame],
+    scene: [MainMenu,Controls, Nivel1, Nivel2, Level, EndGame],
     scale: {
         mode: Phaser.Scale.FIT,
         width: 1280,
