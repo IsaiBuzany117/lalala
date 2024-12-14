@@ -1087,18 +1087,27 @@ class Controls extends Phaser.Scene {
         this.add.image(width/2, height/2, 'controls').setScale(1)
         this.rectangulo = this.add.graphics();
 
+        this.button = new Phaser.Geom.Rectangle(505, 610, 170, 60);
+
         this.rectangulo.lineStyle(4, 0xffffff, 1);  // Grosor de línea 4px, color rojo (0xff0000), opacidad 1 (totalmente opaco)
-        this.rectangulo.strokeRect(505, 610,170 , 60);
+        this.rectangulo.strokeRect(this.button1);
         this.enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
-        
-
+        // Configurar el input táctil
+        this.input.on('pointerdown', this.onTouch, this);  // Detectar toque en pantalla
     }
 
     update() {
         // En tercer lugar, se ejutar una y otra vez
         // Actualización de multimedia
         if (this.enter.isDown) {
+            this.scene.start('mainmenu');
+        }
+    }
+
+    onTouch(pointer) {
+        // Verificar si el toque fue dentro de los rectángulos
+        if (this.button.contains(pointer.x, pointer.y)) {
             this.scene.start('mainmenu');
         }
     }
