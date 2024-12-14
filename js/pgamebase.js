@@ -1004,25 +1004,31 @@ class MainMenu extends Phaser.Scene {
         this.rectangulo = this.add.graphics();
         this.rectangulo2 = this.add.graphics();
 
+        // Dimensiones de los botones
+        this.button1 = new Phaser.Geom.Rectangle(550, 415, 180, 60);
+        this.button2 = new Phaser.Geom.Rectangle(512, 500, 258, 60);
 
         this.rectangulo.lineStyle(4, 0xffffff, 1);  // Grosor de línea 4px, color rojo (0xff0000), opacidad 1 (totalmente opaco)
-        this.rectangulo.strokeRect(550, 415, 180, 60);  // Coordenadas (100, 100), 200px de ancho y 150px de alto
+        this.rectangulo.strokeRect(this.button1);  // Coordenadas (100, 100), 200px de ancho y 150px de alto
         //this.rectangulo2.lineStyle(4, 0xffffff, 1);  // Grosor de línea 4px, color rojo (0xff0000), opacidad 1 (totalmente opaco)
-        this.rectangulo2.strokeRect(512, 500, 258, 60);  // Coordenadas (100, 100), 200px de ancho y 150px de alto
-        
+        this.rectangulo2.strokeRect(this.button2);  // Coordenadas (100, 100), 200px de ancho y 150px de alto
+
         this.cursors = this.input.keyboard.createCursorKeys();
         this.selection = 1;
 
         this.enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
-
+        // Configurar el input táctil
+        this.input.on('pointerdown', this.onTouch, this);  // Detectar toque en pantalla
     }
 
     update() {
         // En tercer lugar, se ejutar una y otra vez
         // Actualización de multimedia
         // Verificar si el personaje está tocando el suelo y presionando la tecla de salto
-        if (this.enter.isDown && (!this.cursors.up.isDown && !this.cursors.down.isDown)) {
+        if (
+            (this.enter.isDown && (!this.cursors.up.isDown && !this.cursors.down.isDown))
+        ) {
             if (this.selection == 1) {
                 this.scene.start('gameScene');
             } else if (this.selection == 2) {
@@ -1049,7 +1055,6 @@ class MainMenu extends Phaser.Scene {
         }
 
     }
-
 }
 
 class Controls extends Phaser.Scene {
